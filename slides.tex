@@ -1,15 +1,14 @@
-\documentclass[12pt]{article}
-
-% PDF Layout
-\usepackage[a4paper,left=2cm,right=5.5cm,bottom=3cm,top=2.5cm,marginparwidth=45mm,marginparsep=5mm]{geometry}
+\documentclass{beamer}
 
 % Standard Packages
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
+\usefonttheme{serif}
+
 \usepackage{hyperref}
 \hypersetup{
-	pdftitle={Note Template},
+	pdftitle={Slides Template},
 	pdfauthor={Euan J. Mendoza},
 	colorlinks=true,
 	linkcolor=black,
@@ -21,54 +20,207 @@
 
 % Personal Macros
 \usepackage{em-mathtools}
+% Note: em-mathtools detects beamer and suppresses its own amsthm environments.
+% Use beamer's built-in theorem/block environments instead.
 
-\renewcommand{\qedsymbol}{$\blacksquare$}
-
-\usepackage{todonotes}
+% \usepackage{todonotes}   % todonotes conflicts with beamer; uncomment with care.
 
 % Bibliography Package
 % \usepackage[style=alphabetic,maxbibnames=6]{biblatex}
 % \addbibresource{references.bib}
 
-\usepackage[capitalise]{cleveref}
-
-% Useful for algorithms
-% \usepackage{framed}
+% \usepackage[capitalise]{cleveref}
 
 % Tikz setup
-
-% \usepackage{standalone}
 % \usepackage{tikz}
-
 % \usetikzlibrary{cd}
 
-\title{
-  Note Template
-}
-\author{
-  Euan Mendoza
-}
+\title{Slides Template}
+\subtitle{A Beamer Example}
+\author{Euan Mendoza}
+\date{\today}
 
 \begin{document}
 
-\maketitle
+% ---- Title frame ----
+\begin{frame}
+    \titlepage
+\end{frame}
 
-\section{Introduction}
+% ---- Table of contents ----
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
 
-Let
+%% ============================================================
+\section{Beamer Basics}
+%% ============================================================
 
-\[
-    \Aut(X) := \{ \sigma \in \Sym(X)\mid x\}
-\]
+\begin{frame}{Frames and Pauses}
+    Beamer slides are built from \texttt{frame} environments.
+    Use \texttt{\textbackslash pause} to reveal content step by step:
 
-Consider $V\in \Gr(k,\F^{n})$\todo{Example note}.
+    \begin{itemize}
+        \item First point.
+        \pause
+        \item Second point, revealed on click.
+        \pause
+        \item Third point, revealed on the next click.
+    \end{itemize}
+\end{frame}
 
-\begin{theorem}[Krull-Schmidt-Remak]
-    If $G_{1}\times \cdots G_{n}$
-\end{theorem}
+\begin{frame}{Overlay Specifications}
+    Finer control with overlay specs:
 
-\begin{proof}
-    Finish proof
-\end{proof}
+    \begin{itemize}
+        \item<1-> Visible from slide 1 onward.
+        \item<2-> Visible from slide 2 onward.
+        \item<3> Visible on slide 3 only.
+    \end{itemize}
+
+    \vspace{1em}
+    \only<1>{This text appears on slide 1 only.}
+    \only<2->{This text appears from slide 2 onward.}
+\end{frame}
+
+\begin{frame}{Columns}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Left column} \\[0.5em]
+            Use columns to place content side by side, e.g.\ a statement
+            on the left and a diagram on the right.
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Right column} \\[0.5em]
+            \[
+                \R^{n} = V \oplus V^{\perp}
+            \]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%% ============================================================
+\section{Theorem Environments}
+%% ============================================================
+
+% Beamer provides its own theorem-style blocks.
+% em-mathtools suppresses its amsthm definitions automatically.
+
+\begin{frame}{Built-in Beamer Blocks}
+    \begin{theorem}[Cayley]
+        Every group $G$ of order $n$ embeds into $\Sym(\{1,\ldots,n\})$.
+    \end{theorem}
+
+    \pause
+
+    \begin{proof}
+        The left-regular action $g \mapsto (x \mapsto gx)$ gives an
+        injective homomorphism $G \hookrightarrow \Sym(G)$.
+    \end{proof}
+\end{frame}
+
+\begin{frame}{Definition and Example Blocks}
+    \begin{definition}
+        The \emph{Grassmannian} $\Gr(k, \F^{n})$ is the set of all
+        $k$-dimensional subspaces of $\F^{n}$.
+    \end{definition}
+
+    \pause
+
+    \begin{example}
+        $\Gr(1, \R^{3})$ is the real projective plane $\mathbb{P}^{2}(\R)$.
+    \end{example}
+\end{frame}
+
+\begin{frame}{Alert and Example Blocks}
+    \begin{block}{Standard block}
+        Use for remarks, notes, and neutral statements.
+    \end{block}
+
+    \begin{alertblock}{Alert block}
+        Use to highlight warnings, important caveats, or open problems.
+    \end{alertblock}
+
+    \begin{exampleblock}{Example block}
+        Use for worked examples and concrete illustrations.
+    \end{exampleblock}
+\end{frame}
+
+%% ============================================================
+\section{em-mathtools Macros}
+%% ============================================================
+
+\begin{frame}{Number Sets and Fields}
+    Standard blackboard-bold sets:
+    \[
+        \N \subset \Z \subset \Q \subset \R \subset \C.
+    \]
+    Generic field $\F$ or $\K$; e.g.\ $\F_{q}^{n}$ is an $n$-dimensional
+    vector space over the finite field with $q$ elements.
+\end{frame}
+
+\begin{frame}{Linear Algebra}
+    \begin{itemize}
+        \item Inner product: $\ip{u}{v}$
+        \item Transpose: $\tr{A}$, \quad Trace: $\Tr(A)$
+        \item Rank: $\rk(A)$
+        \item Span: $\linspan\{v_{1}, \ldots, v_{k}\}$
+        \item Vectors: $\vec{v}$, $\vzero$, $\vA$, $\vB$
+        \item Calligraphic spaces: $\cH$, $\cA$, $\cB$
+    \end{itemize}
+
+    \pause
+
+    \begin{block}{Rank-Nullity}
+        For $T : \F^{n} \to \F^{m}$,
+        \[
+            \rk(T) + \dim\ker(T) = n.
+        \]
+    \end{block}
+\end{frame}
+
+\begin{frame}{Group Theory}
+    \begin{itemize}
+        \item Symmetric group: $\Sym(X)$
+        \item Automorphism group: $\Aut(X)$
+        \item General linear group: $\GL(n, \F)$
+        \item Special orthogonal group: $\SO(n)$
+        \item Unitary group: $\U(n)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Quantum Mechanics}
+    Dirac notation:
+    \[
+        \braket{\psi}{\phi} = \bra{\psi}\ket{\phi}
+        \qquad
+        \ketbra{\psi}{\psi} \text{ (projector)}
+    \]
+
+    The Hamiltonian $H$ acts on states $\ket{\psi} \in \cH$:
+    \[
+        H\ket{\psi} = E\ket{\psi}.
+    \]
+\end{frame}
+
+\begin{frame}{Probability and Complexity}
+    \begin{itemize}
+        \item Expectation: $\E[X]$, \quad Variance: $\Var[X]$
+        \item Polynomial growth: $\poly(n)$, $\polylog(n)$
+    \end{itemize}
+
+    \pause
+
+    \begin{alertblock}{Key Open Problem}
+        Graph Isomorphism (\GIp) is in \NP\ and in \AM\ $\cap$ \SZK,
+        but is not known to be \NPc.
+    \end{alertblock}
+\end{frame}
+
+%% ---- Final frame ----
+\begin{frame}
+    \centering
+    \Large Thank you.
+\end{frame}
 
 \end{document}

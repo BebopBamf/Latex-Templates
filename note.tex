@@ -22,8 +22,6 @@
 % Personal Macros
 \usepackage{em-mathtools}
 
-\renewcommand{\qedsymbol}{$\blacksquare$}
-
 \usepackage{todonotes}
 
 % Bibliography Package
@@ -53,22 +51,118 @@
 
 \maketitle
 
-\section{Introduction}
+%% ============================================================
+%% This file demonstrates features of the note template:
+%%   - Wide Tufte-style right margin with \todo{} annotations
+%%   - em-mathtools macros (number sets, groups, linear algebra, ...)
+%%   - Theorem environments and cleveref cross-references
+%% ============================================================
 
-Let
+\section{Margin Annotations}
 
+The wide right margin is for \todo{This is a todo note} inline reminders
+and commentary using the \texttt{todonotes} package.
+You can also place figures in the margin:\todo[inline]{Inline todos span the text width.}
+
+\section{Number Sets and Fields}
+
+The standard number sets are available as blackboard-bold commands:
 \[
-    \Aut(X) := \{ \sigma \in \Sym(X)\mid x\}
+    \N \subset \Z \subset \Q \subset \R \subset \C.
 \]
+Generic fields and finite fields use $\F$ and $\K$.
+For example, the $n$-dimensional vector space over $\F_{q}$ is $\F_{q}^{n}$.
 
-Consider $V\in \Gr(k,\F^{n})$\todo{Example note}.
+\section{Group Theory}
 
-\begin{theorem}[Krull-Schmidt-Remak]
-    If $G_{1}\times \cdots G_{n}$
+\begin{definition}
+    Let $X$ be a set. The \emph{symmetric group} on $X$ is
+    \[
+        \Sym(X) := \{ \sigma : X \to X \mid \sigma \text{ is a bijection} \}.
+    \]
+    The \emph{automorphism group}\todo{Generalises to any structured object.} of $X$ is the subgroup
+    \[
+        \Aut(X) := \{ \sigma \in \Sym(X) \mid \sigma \text{ preserves the structure of } X \}.
+    \]
+\end{definition}
+
+\begin{definition}
+    The \emph{general linear group} of degree $n$ over a field $\F$ is
+    \[
+        \GL(n, \F) := \{ A \in \M_{n}(\F) \mid \det A \neq 0 \}.
+    \]
+    The \emph{special orthogonal group} $\SO(n) \subset \GL(n, \R)$ consists of
+    rotations in $\R^{n}$.
+\end{definition}
+
+\begin{theorem}[Cayley]
+    \label{thm:cayley}
+    Every group $G$ of order $n$ is isomorphic to a subgroup of $\Sym(\{1,\ldots,n\})$.
 \end{theorem}
 
 \begin{proof}
-    Finish proof
+    Consider the left-regular action $G \to \Sym(G)$, $g \mapsto (x \mapsto gx)$.
+    This is an injective group homomorphism, giving $G \cong \Iso(G)$ for some
+    subgroup $\Iso(G) \leq \Sym(G)$.
 \end{proof}
+
+\section{Linear Algebra}
+
+\begin{definition}
+    The \emph{Grassmannian} $\Gr(k, \F^{n})$ is the set of all $k$-dimensional
+    subspaces of $\F^{n}$.
+\end{definition}
+
+\begin{example}
+    $\Gr(1, \F^{n}) = \mathbb{P}^{n-1}(\F)$ is projective space.
+    A point $V \in \Gr(k, \F^{n})$ can be represented by a matrix
+    $A \in \M_{k \times n}(\F)$ with $\rk(A) = k$, whose rows span $V$.
+\end{example}
+
+The \emph{inner product} on $\R^{n}$ is written $\ip{u}{v}$.
+The \emph{transpose} of $A$ is $\tr{A}$, and its \emph{trace} is $\Tr(A)$.
+The \emph{span} of vectors $v_{1}, \ldots, v_{k}$ is $\linspan\{v_{1}, \ldots, v_{k}\}$.
+
+Bold letters denote vectors:\todo{Use $\vec{v}$ for column vectors, $\tr{\vec{v}}$ for row vectors.}
+\[
+    \vec{v} = \begin{pmatrix} v_{1} \\ \vdots \\ v_{n} \end{pmatrix}, \qquad
+    \vzero = \begin{pmatrix} 0 \\ \vdots \\ 0 \end{pmatrix}.
+\]
+
+\section{Theorem Environments}
+
+The following environments are provided by \texttt{em-mathtools}.
+Cross-references use \texttt{cleveref}: see \cref{thm:cayley} for an example theorem,
+and \cref{lem:example} below.
+
+\begin{lemma}
+    \label{lem:example}
+    For any subspace $V \leq \F^{n}$,
+    \[
+        \dim V + \dim V^{\perp} = n.
+    \]
+\end{lemma}
+
+\begin{proof}
+    Apply the rank-nullity theorem to the map $\F^{n} \to V^{*}$, $x \mapsto \ip{\cdot}{x}|_{V}$.
+\end{proof}
+
+\begin{corollary}
+    If $\dim V = k$ then $V^{\perp} \in \Gr(n-k, \F^{n})$.
+\end{corollary}
+
+\begin{remark}
+    Over a general field $\F$, one must be careful: $V \cap V^{\perp}$ need not be trivial
+    if $\F$ is not ordered.\todo{Consider $\F_{2}$: every vector is self-orthogonal.}
+\end{remark}
+
+\section{Probability and Complexity}
+
+The expected value and variance are written $\E[X]$ and $\Var[X]$.
+Common functions: $\poly(n)$, $\polylog(n)$.
+
+The complexity class \NP\ contains \NPc\ problems.
+\GI\ (Graph Isomorphism) is in \NP\ but not known to be \NPc.
+It lies in \AM\ and \SZK.
 
 \end{document}

@@ -15,3 +15,11 @@ tmp/
 *.toc
 *.bcf
 *.run.xml
+
+# Beamer Specific
+*.nav
+*.snm
+
+# LatexMk Specific
+*.fdb_latexmk
+*.fls
