@@ -4,6 +4,7 @@
 *.log
 tmp/
 
+.auctex-auto/
 .tex-cache/
 
 # Latex Specific

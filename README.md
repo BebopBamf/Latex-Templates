@@ -1,0 +1,1 @@
+# MathSoc Latex Templates
