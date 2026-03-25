@@ -1,0 +1,16 @@
+# Temp Files
+.DS_Store
+.idea
+*.log
+tmp/
+
+.tex-cache/
+
+# Latex Specific
+*.pdf
+*.synctex.gz
+*.out
+*.aux
+*.toc
+*.bcf
+*.run.xml

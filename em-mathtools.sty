@@ -1,0 +1,212 @@
+% This package is dedicated to the public domain using CC0.
+% For more information, see <https://creativecommons.org/publicdomain/zero/1.0/>.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesExplPackage{em-mathtools}{2024-12-07}{v0.1.0}
+{Euan Mendoza's Personal LaTeX Macros for Maths.}
+
+\errorcontextlines 20
+
+%% ============================================================
+%% Package Options
+%% ============================================================
+
+% [nothms] suppresses amsthm environments (e.g. when using beamer).
+% [thms]   forces them on even when beamer is detected.
+\newif\if@emmt@theorems
+\@emmt@theoremstrue
+\DeclareOption{nothms}{\@emmt@theoremsfalse}
+\DeclareOption{thms}{\@emmt@theoremstrue}
+\ProcessOptions\relax
+
+% Auto-disable if beamer class is loaded.
+\@ifclassloaded{beamer}{\@emmt@theoremsfalse}{}
+
+%% ============================================================
+%% Required Packages
+%% ============================================================
+
+\RequirePackage{expl3}
+\RequirePackage{xparse}
+\RequirePackage{xspace}
+\RequirePackage{mathtools}
+\RequirePackage{amssymb}
+\RequirePackage{mathrsfs}
+
+%% ============================================================
+%% Number Sets and Fields
+%% ============================================================
+
+\NewDocumentCommand \Pset {}{\mathscr{P}}
+
+\NewDocumentCommand \A {}{\mathbb{A}}
+\NewDocumentCommand \B {}{\mathbb{B}}
+\NewDocumentCommand \C {}{\mathbb{C}}
+\NewDocumentCommand \F {}{\mathbb{F}}
+\NewDocumentCommand \K {}{\mathbb{K}}
+\NewDocumentCommand \N {}{\mathbb{N}}
+\NewDocumentCommand \Q {}{\mathbb{Q}}
+\NewDocumentCommand \R {}{\mathbb{R}}
+\NewDocumentCommand \Z {}{\mathbb{Z}}
+
+%% ============================================================
+%% Quantum Mechanics
+%% ============================================================
+
+\NewDocumentCommand \bra {m}{\langle{#1}|}
+\NewDocumentCommand \ket {m}{|{#1}\rangle}
+\NewDocumentCommand \braket {m m}{\langle{#1}|{#2}\rangle}
+\NewDocumentCommand \ketbra {m m}{\ket{#1}\bra{#1}}
+
+%% ============================================================
+%% Functions
+%% ============================================================
+
+\NewDocumentCommand \poly {}{\ensuremath{\text{poly}}}
+\NewDocumentCommand \polylog {}{\ensuremath{\text{polylog}}}
+
+%% ============================================================
+%% Group Theory
+%% ============================================================
+
+\NewDocumentCommand \Iso {}{\mathrm{Iso}}
+\NewDocumentCommand \Aut {}{\mathrm{Aut}}
+\NewDocumentCommand \Sym {}{\mathrm{Sym}}
+
+% Matrix groups
+\NewDocumentCommand \GL {}{\mathrm{GL}}
+\NewDocumentCommand \SO {}{\mathrm{SO}}
+\NewDocumentCommand \U  {}{\mathrm{U}}
+
+%% ============================================================
+%% Linear Algebra
+%% ============================================================
+
+% Spaces
+\NewDocumentCommand \Gr {}{\mathrm{Gr}}
+\NewDocumentCommand \M  {}{\mathrm{M}}
+\NewDocumentCommand \T  {}{\mathrm{T}}
+
+% Operations
+\NewDocumentCommand \ip      {m m}{\langle{#1}, {#2}\rangle}
+\NewDocumentCommand \linspan {}{\mathrm{span}}
+\NewDocumentCommand \rk      {}{\mathrm{rk}}
+\NewDocumentCommand \tr      {m}{{#1}^{t}}   % transpose
+\NewDocumentCommand \Tr      {}{\mathrm{Tr}}  % trace
+
+%% ============================================================
+%% Vectors
+%% ============================================================
+
+\RenewDocumentCommand \vec {m}{\mathbf{#1}}
+\NewDocumentCommand \vzero {}{\vec{0}}
+\NewDocumentCommand \vA {}{\vec{A}}
+\NewDocumentCommand \vB {}{\vec{B}}
+\NewDocumentCommand \vC {}{\vec{C}}
+\NewDocumentCommand \vD {}{\vec{D}}
+
+%% ============================================================
+%% Calligraphic Spaces
+%% ============================================================
+
+\NewDocumentCommand \spa {m}{\mathcal{#1}}
+\NewDocumentCommand \cA {}{\spa{A}}
+\NewDocumentCommand \cB {}{\spa{B}}
+\NewDocumentCommand \cC {}{\spa{C}}
+\NewDocumentCommand \cD {}{\spa{D}}
+\NewDocumentCommand \cG {}{\spa{G}}
+\NewDocumentCommand \cH {}{\spa{H}}
+\NewDocumentCommand \cO {}{\spa{O}}
+
+%% ============================================================
+%% Tensors
+%% ============================================================
+
+\NewDocumentCommand \tens {m}{\mathtt{#1}}
+\NewDocumentCommand \tA {}{\tens{A}}
+\NewDocumentCommand \tB {}{\tens{B}}
+\NewDocumentCommand \tC {}{\tens{C}}
+\NewDocumentCommand \tD {}{\tens{D}}
+\NewDocumentCommand \tT {}{\tens{T}}
+
+%% ============================================================
+%% Probability
+%% ============================================================
+
+\NewDocumentCommand \E   {}{\mathrm{E}}
+\NewDocumentCommand \Var {}{\mathrm{Var}}
+
+%% ============================================================
+%% Theorem Environments  (suppressed by [nothms] or beamer)
+%% ============================================================
+
+% Redefine QED symbol to filled square wherever it exists.
+\AtBeginDocument{
+  \@ifundefined{qedsymbol}{}{%
+    \RenewDocumentCommand \qedsymbol {}{$\blacksquare$}%
+  }
+}
+
+\if@emmt@theorems
+\RequirePackage{amsthm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[lemma]{Corollary}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{claim}{Claim}[section]
+\newtheorem{hypothesis}{Hypothesis}[section]
+\newtheorem{construction}{Construction}
+\newtheorem{conjecture}{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{assumption}{Assumption}
+\newtheorem{observation}{Observation}
+\newtheorem{fact}{Fact}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}{Problem}
+\newtheorem{openproblem}{Open~Problem}
+\newtheorem{question}{Research~Question}
+\newtheorem{openquestion}{Open~Question}
+\newtheorem{action}{Group~Action}
+\fi
+
+%% ============================================================
+%% Complexity Theory
+%% ============================================================
+
+% Problem names (sans-serif)
+\NewDocumentCommand \probsty {m}{\textsf{#1}\xspace}
+
+\NewDocumentCommand \GIp    {}{\probsty{GI}}
+\NewDocumentCommand \TIp    {}{\probsty{TI}}
+\NewDocumentCommand \MSE    {}{\probsty{MSE}}
+\NewDocumentCommand \MSC    {}{\probsty{MSC}}
+\NewDocumentCommand \MTE    {}{\probsty{MTE}}
+\NewDocumentCommand \MTC    {}{\probsty{MTC}}
+\NewDocumentCommand \AMSE   {}{\probsty{Alt-MSE}}
+\NewDocumentCommand \AMSC   {}{\probsty{Alt-MSC}}
+\NewDocumentCommand \AMTC   {}{\probsty{Alt-MTC}}
+\NewDocumentCommand \cAMTC  {}{\probsty{Cond-Alt-MTC}}
+\NewDocumentCommand \IAMSC  {}{\probsty{Inhom-Alt-MSC}}
+\NewDocumentCommand \BDAMSC {}{\probsty{BDiag-Alt-MSC}}
+\NewDocumentCommand \SAI {o}{
+  \IfValueTF{#1}{\probsty{$#1$-SAI}}{\probsty{SAI}}
+}
+
+% Complexity classes (roman)
+\NewDocumentCommand \class {m}{\textrm{#1}\xspace}
+
+\NewDocumentCommand \AM   {}{\class{AM}}
+\NewDocumentCommand \coAM {}{\class{coAM}}
+\NewDocumentCommand \coNP {}{\class{coNP}}
+\NewDocumentCommand \GI   {}{\class{GI}}
+\NewDocumentCommand \NP   {}{\class{NP}}
+\NewDocumentCommand \NPc  {}{\class{NP-complete}}
+\NewDocumentCommand \SZK  {}{\class{SZK}}
+\NewDocumentCommand \TI   {}{\class{TI}}
+\NewDocumentCommand \TIc  {}{\class{TI-complete}}
+
+\endinput
